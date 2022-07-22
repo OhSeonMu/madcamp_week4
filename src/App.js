@@ -1,25 +1,36 @@
-import logo from './logo.svg';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+class App extends React.Component {
+  render() {
+    return( 
+    <div className = "App-background">
+        <img alt = "logo" src= "image/logo.PNG"/>
+        <div className = "App-title">
+          <div>Let's Start</div>
+        </div>
+        <div className = "box bg-3">
+          <button className="button button--wayra button--border-medium 
+          button--text-upper button--size-s button--text-thick" >
+            <Link to = "/page"> Easy </Link>
+          </button>
+          <button className="button button--wayra button--border-medium 
+          button--text-upper button--size-s button--text-thick">
+            <Link to = "/page"> Normal </Link>
+          </button>
+          <button className="button button--wayra button--border-medium 
+          button--text-upper button--size-s button--text-thick">
+            <Link to = "/page"> Hard </Link>
+          </button>
+        </div>
+        <div className = "code">
+          <img alt = "logo" src= "image/code.PNG"/>
+        </div>
     </div>
-  );
+    );
+  }
 }
 
 export default App;
