@@ -14,15 +14,15 @@ class App extends React.Component {
         <div className = "box bg-3">
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick" >
-            <Link to = "/page"> Easy </Link>
+            <Link to = "/pageEasy"> Easy </Link>
           </button>
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick">
-            <Link to = "/page"> Normal </Link>
+            <Link to = "/pageNormal"> Normal </Link>
           </button>
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick">
-            <Link to = "/page"> Hard </Link>
+            <Link to = "/pageHard"> Hard </Link>
           </button>
         </div>
         <div className = "code">
