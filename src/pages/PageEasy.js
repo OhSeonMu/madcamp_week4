@@ -71,6 +71,28 @@ function PageEasy(){
         }
         }
     )
+    let timerId = null
+    if(AIPos < 1250){
+        timerId = setInterval(() => changeAIPos(AIPos + 50), 1000);
+    }
+    else{
+        setTimeout(() => { clearInterval(timerId); changeAIPos(600);});
+        me = React.createElement(
+            "img",
+            { 
+            src: "/image/dead2.png",
+            alt: "walk", 
+            width: 80,
+            style: { 
+                position: "absolute",
+                top : 0,
+                left: myPos, 
+                zIndex: 10,
+                pointerEvents: "none"
+            }
+            }  
+        )
+    }
     return(
         <div className = "page-background">
             <div className = "track">
@@ -79,7 +101,7 @@ function PageEasy(){
                 { AI2 }
                 { AI3 }
             </div>
-            <button onClick = {() => { changeAIPos(AIPos + 50) }}> Change </button>
+            <button onClick = {() => { changeMyPos(myPos + 50) }}> Change </button>
         </div>
     );
 }
