@@ -4,21 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PageEasy from "./PageEasy";
-import pageNormal from "./PageNormal";
-import PageHard from "./PageHard";
+import PageEasy from "./pages/PageEasy";
+import pageNormal from "./pages/PageNormal";
+import PageHard from "./pages/PageHard";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App/>} />
-      <Route path="expenses" element={<PageEasy/>}/>
-      <Route path="invoices" element={<PageEasy/>}/>
-      <Route path="expenses" element={<pageNormal/>}/>
-      <Route path="invoices" element={<pageNormal/>}/>
-      <Route path="expenses" element={<PageHard/>}/>
-      <Route path="invoices" element={<PageHard/>}/>
+      <Route path="/PageEasy" element={<PageEasy/>}/>
+      <Route path="/PageNormal" element={<pageNormal/>}/>
+      <Route path="/PageHard" element={<PageHard/>}/>
     </Routes>
   </BrowserRouter>
   /*
