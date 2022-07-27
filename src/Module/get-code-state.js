@@ -1,6 +1,5 @@
 export class GetCodeState{
-    constructor(check, state){
-        this.check = check;
+    constructor(state){
         this.state = state;
     }
 }

@@ -11,40 +11,33 @@ export function InitSocketConnection(){
     socketio.connect('ws://192.249.18.198:80');
 };
 
-/* codestate를 받아오는 함수 */
-/* 
-arg = {
-    "check" // boolean
+/* codestate를 받아오는 함수
+input = givecodestate
+agivecodestate = {
+    "origin_code" // string
+    "code" // string
+}
+output = getcodestate
+getcodestate = {
     "state" // number
 }
 */
-export function GetCodeState(){
-    socket.on("code_state", (arg)=>{
-        console.log(arg);
-        return arg;
+export function GetState(givecodestate){
+    socket.emit("code_state", givecodestate);
+    return socket.on("code_state", (getcodestate)=>{
+        console.log(getcodestate);
+        return getcodestate;
     })
 }
 
-/* codestate를 주는 함수 */
-/*
-arg = {
-    "origin_code" // string
-    "code" // string
-    "state" // number
-}
+/*code를 받아오는 함수
+input =  Level :: "esay", "normal", "hard"
+output = Code
 */
-export function GiveCodeState(arg){
-    socket.emit("code_state", arg);
-    console.log("GiveCodeState");
-}
-
-export function GiveLevel(arg){
-    socket.emit("code", arg);
-}
-
-export function GetCode(){
-    socket.on("code", (arg)=>{
-        return arg;
+export function GetCode(Level){
+    socket.emit("code", Level);
+    return socket.on("code", (code)=>{
+        return code;
     });
 }
 
@@ -55,6 +48,3 @@ export function DisconnectSocket(){
     socket.disconnect();
     socket = undefined;
 }
-
-
-

@@ -5,23 +5,25 @@ import './App.css';
 import './Socket/solo-socket.js';
 import './Module/give-code-state.js';
 import './Module/get-code-state.js';
-import { InitSocketConnection, DisconnectSocket, GiveCodeState, GetCodeState} from "./Socket/solo-socket.js";
+import { InitSocketConnection, DisconnectSocket,GetCode, GetState} from "./Socket/solo-socket.js";
 import { io } from "socket.io-client";
 
 
 class App extends React.Component {
   render() {
+    InitSocketConnection();
+    
     return( 
     <div className = "App-background">
         <img alt = "logo" src= "image/logo.PNG"/>
         <div className = "App-title">
           <div>Let's Start</div>
-          <button onClick = {GiveCodeState({
+          {/* <button onClick = {Get({
             origin_code : "HellowWorld",
             code :"Hellow",
             state :"10" 
           })}></button>
-          <button onClick = {GetCodeState()}></button>
+          <button onClick = {GetCode()}></button> */}
         </div>
         <div className = "box bg-3">
           <button className="button button--wayra button--border-medium 
