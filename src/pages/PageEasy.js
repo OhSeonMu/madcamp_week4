@@ -1,33 +1,37 @@
-import React, { useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import './PageEasy.css';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import background from './assets/background.png';
-import { GetCodeState } from "../Socket/solo-socket";
-import useInterval from "./userInterval";
 import useTypingGame from "react-typing-game-hook";
-import "./styles.css";
+import { InitSocketConnection, DisconnectSocket,GetCode, GetState} from "../Socket/solo-socket.js";
+import { io } from "socket.io-client";
 
-function PageEasy(props) {
+function PageEasy() {
+
     let [isEnd1, setEnd1] = useState(false);
     let [isEnd2, setEnd2] = useState(false);
     let [isEnd3, setEnd3] = useState(false);
     let [isEnd4, setEnd4] = useState(false);
+
     let [myPos, changeMyPos] = useState(0);
     let [AIPos, changeAIPos] = useState(0);
-    var count = 1;
-    const interval = setInterval(() => {
-        count++;
-        changeAIPos(AIPos + 10)
-        if (count === 10) {
-            clearInterval(interval);
-            interval = null;
+
+    const number_ref = useRef(0);
+    useEffect(() => {
+        const loop = setInterval(() => {
+        number_ref.current += 1;
+        changeAIPos(number_ref.current*5)
+        if (number_ref.current === 20) {
+            clearInterval(loop);
             setEnd2(true);
             setEnd3(true);
             setEnd4(true);
+            changeAIPos(90);
         }
-    }, 1000);
+        }, 1000);
+    }, []);
     const me = React.createElement(
         "img",
         {
@@ -151,12 +155,97 @@ function PageEasy(props) {
     )
     if (myPos >= 100) {
         setEnd1(true);
-        clearInterval(interval)
         changeMyPos(90);
+        number_ref.current = 19;
     }
+    // text typing zone
+    // let text_arr = props.code;
+    // console.log(text_arr);
+    let text = "The quick brown fox jumps over the lazy dog";
+    const {
+        states: {
+            charsState,
+            length,
+            currIndex,
+            currChar,
+            correctChar,
+            errorChar,
+            phase,
+            startTime,
+            endTime,
+        },
+        actions: { insertTyping, resetTyping, deleteTyping },
+    } = useTypingGame(text);
+    const handleKey = (key) => {
+        if (key === "Escape") {
+            resetTyping();
+        } else if (key === "Backspace") {
+            deleteTyping(false);
+        } else if (key.length === 1) {
+            insertTyping(key);
+        } else if (key === "Enter") {
+            console.log('enter pressed');
+            //Todo request
+            changeMyPos(myPos + 10)
+        }
+    };
+    // text div 
+    const divTextZone = React.createElement(
+        "div",
+        null,
+        React.createElement("h1", null, "React Typing Game Hook Demo"),
+        React.createElement(
+            "p",
+            null,
+            "Click on the text below and start typing (esc to reset)"
+        ),
+        React.createElement(
+            "div",
+            {
+                className: "typing-test",
+                onKeyDown: (e) => {
+                    handleKey(e.key);
+                    e.preventDefault();
+                },
+                tabIndex: 0,
+            },
+            text.split("").map((char, index) => {
+                let state = charsState[index];
+                let color = state === 0 ? "black" : state === 1 ? "green" : "red";
+                return React.createElement(
+                    "span",
+                    {
+                        key: char + index,
+                        style: { color },
+                        className: currIndex + 1 === index ? "curr-letter" : "",
+                    },
+                    char
+                );
+            })
+        ),
+        React.createElement(
+            "pre",
+            null,
+            JSON.stringify(
+                {
+                    startTime,
+                    endTime,
+                    length,
+                    currIndex,
+                    currChar,
+                    correctChar,
+                    errorChar,
+                    phase,
+                },
+                null,
+                2
+            )
+        )
+    );
+    //-- text typing end
     return (
-        <div className="page-background">
-            <div className="track">
+        <div className="page-background flex-container">
+            <div className="track flex-item">
                 {isEnd1 ? (isEnd2 ? (isEnd3 ? (isEnd4 ? (
                     <>
                         {deadme}
@@ -271,90 +360,11 @@ function PageEasy(props) {
                     </>
                 ))))}
             </div>
-            <TypingGameDemo></TypingGameDemo>
+            <div className="TypingArea flex-item">
+            {divTextZone}
+            </div>
         </div>
     );
 }
-
-const TypingGameDemo = () => {
-    let text = "The quick brown fox jumps over the lazy dog";
-    const {
-        states: {
-            charsState,
-            length,
-            currIndex,
-            currChar,
-            correctChar,
-            errorChar,
-            phase,
-            startTime,
-            endTime,
-        },
-        actions: { insertTyping, resetTyping, deleteTyping },
-    } = useTypingGame(text);
-    const handleKey = (key) => {
-        if (key === "Escape") {
-            resetTyping();
-        } else if (key === "Backspace") {
-            deleteTyping(false);
-        } else if (key.length === 1) {
-            insertTyping(key);
-        } else if (key === "Enter") {
-            console.log('enter pressed');
-        }
-    };
-    return React.createElement(
-        "div",
-        null,
-        React.createElement("h1", null, "React Typing Game Hook Demo"),
-        React.createElement(
-            "p",
-            null,
-            "Click on the text below and start typing (esc to reset)"
-        ),
-        React.createElement(
-            "div",
-            {
-                className: "typing-test",
-                onKeyDown: (e) => {
-                    handleKey(e.key);
-                    e.preventDefault();
-                },
-                tabIndex: 0,
-            },
-            text.split("").map((char, index) => {
-                let state = charsState[index];
-                let color = state === 0 ? "black" : state === 1 ? "green" : "red";
-                return React.createElement(
-                    "span",
-                    {
-                        key: char + index,
-                        style: { color },
-                        className: currIndex + 1 === index ? "curr-letter" : "",
-                    },
-                    char
-                );
-            })
-        ),
-        React.createElement(
-            "pre",
-            null,
-            JSON.stringify(
-                {
-                    startTime,
-                    endTime,
-                    length,
-                    currIndex,
-                    currChar,
-                    correctChar,
-                    errorChar,
-                    phase,
-                },
-                null,
-                2
-            )
-        )
-    );
-};
 
 export default PageEasy;

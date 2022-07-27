@@ -7,32 +7,34 @@ import './Module/give-code-state.js';
 import './Module/get-code-state.js';
 import { InitSocketConnection, DisconnectSocket,GetCode, GetState} from "./Socket/solo-socket.js";
 import { io } from "socket.io-client";
+import { Socket } from "socket.io";
 
 
 class App extends React.Component {
   render() {
     InitSocketConnection();
+    const easy = GetCode("easy");
+    // const normal = GetCode("normal");
+    // const hard = GetCode("hard");
+    
+    console.log(easy);
+    // console.log(normal);
+    // console.log(hard);
     
     return( 
     <div className = "App-background">
         <img alt = "logo" src= "image/logo.PNG"/>
         <div className = "App-title">
           <div>Let's Start</div>
-          {/* <button onClick = {Get({
-            origin_code : "HellowWorld",
-            code :"Hellow",
-            state :"10" 
-          })}></button>
-          <button onClick = {GetCode()}></button> */}
         </div>
         <div className = "box bg-3">
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick" >
-            <Link to = "/PageEasy"> Easy </Link>
+            <Link to = "/PageEasy" > Easy </Link>
           </button>
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick">
-            <Link to = "/PageNormal"> Normal </Link>
+            <Link to = "/PageNormal" > Normal </Link>
           </button>
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick">

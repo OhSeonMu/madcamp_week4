@@ -7,10 +7,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PageEasy from "./pages/PageEasy";
 import pageNormal from "./pages/PageNormal";
 import PageHard from "./pages/PageHard";
-import { InitSocketConnection, Checkconnect, DisconnectSocket, GiveCodeState, GetCodeState} from "./Socket/solo-socket.js";
+import { InitSocketConnection, Checkconnect, DisconnectSocket,GetCode} from "./Socket/solo-socket.js";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-//InitSocketConnection();
+
+
 root.render(
   <BrowserRouter>
     <Routes>

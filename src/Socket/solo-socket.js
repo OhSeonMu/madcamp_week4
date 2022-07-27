@@ -1,14 +1,17 @@
 import React from "react";
 import socketio, {io} from "socket.io-client";
 
-let socket = io('ws://192.249.18.198:80');
+let socket = io('ws://192.249.18.215:80');
 
 
 export function InitSocketConnection(){
     console.log(1);
-    if (socket) return;
+    if (socket) {
+        console.log(3);
+        return;
+    }
     console.log(2);
-    socketio.connect('ws://192.249.18.198:80');
+    socketio.connect('ws://192.249.18.215:80');
 };
 
 /* codestate를 받아오는 함수
@@ -34,11 +37,22 @@ export function GetState(givecodestate){
 input =  Level :: "esay", "normal", "hard"
 output = Code
 */
+
 export function GetCode(Level){
+    // let result = ""
     socket.emit("code", Level);
-    return socket.on("code", (code)=>{
+
+    socket.on("code", (code)=>{
         return code;
+        // result = code.slice();
+        // console.log("11")
+        // console.log(result)
+        // console.log("11")
     });
+    // console.log("22")
+    // console.log(result)
+    // console.log("22")
+    // return result 
 }
 
 export function DisconnectSocket(){
@@ -48,3 +62,9 @@ export function DisconnectSocket(){
     socket.disconnect();
     socket = undefined;
 }
+
+export function Checkconnect(){
+    socket.on("connected success", (str)=>{
+        console.log(str);
+    })
+  };
