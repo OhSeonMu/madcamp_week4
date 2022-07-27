@@ -1,0 +1,109 @@
+.page-background{
+    background-image: url(./assets/background.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.track{
+    background-image: url(./assets/track.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    align-items: center;
+    /* width: 50%; */
+    height: 40%;
+    padding: 0.01em 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    justify-content: center;
+
+}
+
+.walking2{
+    background-image: url(./assets/walk2.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 20% 30%;
+    width: 40%;
+    padding: 7.01em 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    justify-content: left; 
+    position: absolute;
+    top : 0%;
+    left: 15%; 
+    /* transform: translateX(-50%); */
+}
+.walking3{
+    background-image: url(./assets/walk3.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 20% 30%;
+    width: 40%;
+    padding: 7.01em 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    justify-content: left; 
+    position: absolute;
+    top : 10%;
+    left: 15%; 
+}
+.walking4{ 
+    background-image: url(./assets/walk4.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 20% 30%;
+    width: 40%;
+    padding: 7.01em 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    justify-content: left; 
+    position: absolute;
+    top : 20%;
+    left: 15%; 
+
+}
+.walking5{
+    background-image: url(./assets/walk5.png);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 20% 30%;
+    width: 40%;
+    padding: 7.01em 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    justify-content: left; 
+    position: absolute;
+    top : 30%;
+    left: 15%; 
+
+}

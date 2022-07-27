@@ -10,19 +10,6 @@ import { io } from "socket.io-client";
 
 
 class App extends React.Component {
-  /*
-  useEffect(()=>{
-    console.log("hellow");
-    InitSocketConnection();
-    Checkconnect();
-
-    var givecode = new GiveCodeState("hellow\nWold", 1);
-    console.log(GetCodeState());
-    return () => {
-      DisconnectSocket();
-    }
-  },[]);
-  */ 
   render() {
     return( 
     <div className = "App-background">
@@ -38,16 +25,16 @@ class App extends React.Component {
         </div>
         <div className = "box bg-3">
           <button className="button button--wayra button--border-medium 
-          button--text-upper button--size-s button--text-thick">
-             Normal
+          button--text-upper button--size-s button--text-thick" >
+            <Link to = "/PageEasy"> Easy </Link>
           </button>
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick">
-            <Link to = "/page"> Normal </Link>
+            <Link to = "/PageNormal"> Normal </Link>
           </button>
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick">
-            <Link to = "/page"> Hard </Link>
+            <Link to = "/PageHard"> Hard </Link>
           </button>
         </div>
         <div className = "code">
