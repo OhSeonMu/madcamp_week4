@@ -27,32 +27,30 @@ getcodestate = {
 */
 export function GetState(givecodestate){
     socket.emit("code_state", givecodestate);
-    return socket.on("code_state", (getcodestate)=>{
-        console.log(getcodestate);
-        return getcodestate;
+    return socket.on("code_state", (state)=>{
+        console.log(state);
+        return state;
     })
 }
-
 /*code를 받아오는 함수
 input =  Level :: "esay", "normal", "hard"
 output = Code
 */
 
 export function GetCode(Level){
-    // let result = ""
     socket.emit("code", Level);
-
+    var result
     socket.on("code", (code)=>{
         return code;
-        // result = code.slice();
-        // console.log("11")
-        // console.log(result)
-        // console.log("11")
+        result = code.slice();
+        console.log("11")
+        console.log(result)
+        console.log("11")
     });
-    // console.log("22")
-    // console.log(result)
-    // console.log("22")
-    // return result 
+    console.log("22")
+    console.log(result)
+    console.log("22")
+    return result 
 }
 
 export function DisconnectSocket(){

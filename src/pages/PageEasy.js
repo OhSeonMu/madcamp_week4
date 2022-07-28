@@ -7,8 +7,14 @@ import background from './assets/background.png';
 import useTypingGame from "react-typing-game-hook";
 import { InitSocketConnection, DisconnectSocket,GetCode, GetState} from "../Socket/solo-socket.js";
 import { io } from "socket.io-client";
+import { Link } from 'react-router-dom';
 
-function PageEasy() {
+let socket = io('ws://192.249.18.215:80');
+
+function PageEasy(){
+
+    let [codes,setcode] = useState ("");
+    let [currentCode,setcurrentCode] = useState("");
 
     let [isEnd1, setEnd1] = useState(false);
     let [isEnd2, setEnd2] = useState(false);
@@ -17,21 +23,25 @@ function PageEasy() {
 
     let [myPos, changeMyPos] = useState(0);
     let [AIPos, changeAIPos] = useState(0);
-
+    
     const number_ref = useRef(0);
     useEffect(() => {
-        const loop = setInterval(() => {
-        number_ref.current += 1;
-        changeAIPos(number_ref.current*5)
-        if (number_ref.current === 20) {
-            clearInterval(loop);
-            setEnd2(true);
-            setEnd3(true);
-            setEnd4(true);
-            changeAIPos(90);
-        }
-        }, 1000);
+        let timer = setTimeout(()=>{ 
+            const loop = setInterval(() => {
+            number_ref.current += 1;
+            changeAIPos(number_ref.current*5)
+            if (number_ref.current === 20) {
+                clearInterval(loop);
+                setEnd2(true);
+                setEnd3(true);
+                setEnd4(true);
+                changeAIPos(90);
+            }
+            }, 1000); }, 
+            2000);
+        
     }, []);
+
     const me = React.createElement(
         "img",
         {
@@ -158,10 +168,30 @@ function PageEasy() {
         changeMyPos(90);
         number_ref.current = 19;
     }
+    let [codearr,setcodearr] = useState(["waiting"]);
+    let [text,setText] = useState(codearr[0]);
+    let [index,setIndex] = useState(0);
+
+    function request(){
+        InitSocketConnection();
+        
+        socket.emit("code", "easy");
+        
+        socket.on("code", (code)=>{
+            setcode(code);
+            // console.log(codes);
+            number_ref.current = 0;
+            changeAIPos(0);
+            // console.log("codes", codes);
+            setcodearr(codes.split("\\n"));
+            // for (let codeline in codearr) {
+            //     console.log("codeline", codearr[codeline]);
+            // }
+            setText(codearr[0])
+        });
+    }
     // text typing zone
     // let text_arr = props.code;
-    // console.log(text_arr);
-    let text = "The quick brown fox jumps over the lazy dog";
     const {
         states: {
             charsState,
@@ -181,19 +211,39 @@ function PageEasy() {
             resetTyping();
         } else if (key === "Backspace") {
             deleteTyping(false);
+            setcurrentCode(currentCode.slice(0,-1))
         } else if (key.length === 1) {
             insertTyping(key);
+            setcurrentCode(currentCode + key);
         } else if (key === "Enter") {
             console.log('enter pressed');
             //Todo request
-            changeMyPos(myPos + 10)
+            var req = new Object();
+            req.origin_code = codes;
+            req.code = currentCode;
+            console.log(JSON.stringify(req))
+            
+            socket.emit("code_state", req);
+            
+            socket.on("code_state", (state)=>{
+                if (state * 10 > myPos){
+                    setIndex(index + 1)
+                    changeMyPos(state*10);
+                    setcurrentCode(currentCode + "\\n")
+                }
+                setText(codearr[index])
+                console.log("state",state);
+                console.log("text",text);
+                console.log("index",index);
+            });
+            
         }
     };
     // text div 
+    
     const divTextZone = React.createElement(
         "div",
         null,
-        React.createElement("h1", null, "React Typing Game Hook Demo"),
         React.createElement(
             "p",
             null,
@@ -223,28 +273,30 @@ function PageEasy() {
                 );
             })
         ),
-        React.createElement(
-            "pre",
-            null,
-            JSON.stringify(
-                {
-                    startTime,
-                    endTime,
-                    length,
-                    currIndex,
-                    currChar,
-                    correctChar,
-                    errorChar,
-                    phase,
-                },
-                null,
-                2
-            )
-        )
+        // React.createElement(
+        //     "pre",
+        //     null,
+        //     JSON.stringify(
+        //         {
+        //             startTime,
+        //             endTime,
+        //             length,
+        //             currIndex,
+        //             currChar,
+        //             correctChar,
+        //             errorChar,
+        //             phase,
+        //         },
+        //         null,
+        //         2
+        //     )
+        // )
     );
     //-- text typing end
+    
     return (
         <div className="page-background flex-container">
+            <button onClick = { request }> 시작하기 </button>
             <div className="track flex-item">
                 {isEnd1 ? (isEnd2 ? (isEnd3 ? (isEnd4 ? (
                     <>
@@ -361,7 +413,10 @@ function PageEasy() {
                 ))))}
             </div>
             <div className="TypingArea flex-item">
-            {divTextZone}
+            <div className="list">
+                {codearr.map(txt => <p>{txt}</p>)}
+            </div>
+                {divTextZone}
             </div>
         </div>
     );

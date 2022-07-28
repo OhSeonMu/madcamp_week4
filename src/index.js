@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PageEasy from "./pages/PageEasy";
-import pageNormal from "./pages/PageNormal";
+import PageNormal from "./pages/PageNormal";
 import PageHard from "./pages/PageHard";
 import { InitSocketConnection, Checkconnect, DisconnectSocket,GetCode} from "./Socket/solo-socket.js";
+import { io } from "socket.io-client";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
 
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App/>} />
-      <Route path="/PageEasy" element={<PageEasy/>}/>
-      <Route path="/PageNormal" element={<pageNormal/>}/>
+      <Route path="/PageEasy" element={ <PageEasy/>}/>
+      <Route path="/PageNormal" element={<PageNormal/>}/>
       <Route path="/PageHard" element={<PageHard/>}/>
     </Routes>
   </BrowserRouter>

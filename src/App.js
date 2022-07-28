@@ -1,4 +1,4 @@
-import React, {useEffect, useInsertionEffect} from "react";
+import React, {useEffect, useInsertionEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import './App.css';
@@ -8,16 +8,26 @@ import './Module/get-code-state.js';
 import { InitSocketConnection, DisconnectSocket,GetCode, GetState} from "./Socket/solo-socket.js";
 import { io } from "socket.io-client";
 import { Socket } from "socket.io";
+// let socket = io('ws://192.249.18.215:80');
 
-
-class App extends React.Component {
-  render() {
-    InitSocketConnection();
-    const easy = GetCode("easy");
-    // const normal = GetCode("normal");
-    // const hard = GetCode("hard");
+function App(){
+    // InitSocketConnection();
+    // let [easy,seteasy] = useState ("");
+    // socket.emit("code", "easy");
     
-    console.log(easy);
+    // // const normal = GetCode("normal");
+    // // const hard = GetCode("hard");
+    // socket.on("code", (code)=>{
+    //     seteasy(code)
+    //     // console.log(easy)
+    //     // console.log(`/PageEasy/${easy}`)
+    //     // console.log(typeof(easy))
+    // });
+    // var easy;
+    // socket.emit("code", "easy");
+
+    // // const normal = GetCode("normal");
+    // // const hard = GetCode("hard");
     // console.log(normal);
     // console.log(hard);
     
@@ -30,7 +40,7 @@ class App extends React.Component {
         <div className = "box bg-3">
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick" >
-            <Link to = "/PageEasy" > Easy </Link>
+            <Link to = "/PageEasy"> Easy </Link>
           </button>
           <button className="button button--wayra button--border-medium 
           button--text-upper button--size-s button--text-thick">
@@ -46,7 +56,7 @@ class App extends React.Component {
         </div>
     </div>
     );
-  }
+  
 }
 
 export default App;

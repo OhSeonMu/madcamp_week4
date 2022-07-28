@@ -53,7 +53,11 @@
     top : 50%;
     left : 25%;
 }
-
+.list{
+  text-align: left;
+  padding: 1.01em 0;
+  
+}
 /* text area */
 @keyframes flash {
   0%,
